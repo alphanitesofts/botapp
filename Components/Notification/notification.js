@@ -6,7 +6,8 @@ import {
 ScrollView,
 Pressable,
 ImageBackground,
-Alert
+Alert,
+FlatList
 } from 'react-native';
 import styles from './Styles';
 
@@ -15,7 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../GlobalStyles/colors';
 import notificationIcon from '../../assets/images/notification.png'
-import { FlatList } from 'react-native-gesture-handler';
+
 
 // import BackBtn from '../GlobalStyles/BackButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';

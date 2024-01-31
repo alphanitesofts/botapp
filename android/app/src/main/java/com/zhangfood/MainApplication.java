@@ -10,7 +10,7 @@ import com.rnmaps.maps.MapsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.oblador.vectoricons.VectorIconsPackage;
