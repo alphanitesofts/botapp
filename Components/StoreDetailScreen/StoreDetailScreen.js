@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, FlatList,TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // You can use any icon library you prefer
 import Colors from '../GlobalStyles/colors';
 
@@ -12,69 +12,70 @@ import ViewCart from '../GlobalStyles/ViewCart';
 import HandleAddCart from '../ProductCart/HandleAddCart';
 import CheckCartStatus from '../ProductCart/CheckCartStatus';
 import { useIsFocused } from '@react-navigation/native';
-const StoreDetailScreen = ({ route }) => {
+import GoBack from '../GlobalStyles/GoBack';
+const StoreDetailScreen = ({ navigation, route }) => {
   const focused = useIsFocused()
-const {item} = route.params
-// console.log(item.machineId)
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [forceCheck,setForceCheck]=useState(false)
-    const [productData,setProductData]=useState([])
-    const [showCartButton,setShowCartButton] = useState(false)
+  const { item } = route.params
+  // console.log(item.machineId)
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [forceCheck, setForceCheck] = useState(false)
+  const [productData, setProductData] = useState([])
+  const [showCartButton, setShowCartButton] = useState(false)
 
-    const handleAddToCart = async (cartItem) => {
-     const handleCart = await HandleAddCart(cartItem)
-     if(handleCart){
+  const handleAddToCart = async (cartItem) => {
+    const handleCart = await HandleAddCart(cartItem)
+    if (handleCart) {
       setForceCheck(!showCartButton)
-     }
-    };
-    
-    
-  useEffect(()=>{
-    
-    existingCartCheck()
-     
-  },[focused])
-
-useEffect(()=>{
-  existingCartCheck()
-},[forceCheck])
-
-
-useEffect(()=>{
-
-  getGoods()
-
-},[item])
-
-function getGoods(){
-  var formdata = new FormData();
-formdata.append("token", "4YgUjOLnZ6x6b3tPVOCBMX5y");
-formdata.append("code", item.machineId);
-
-var requestOptions = {
-  method: 'POST',
-  body: formdata,
-  redirect: 'follow'
-};
-
-fetch("https://f.aiwan88.net/cp/coffee/v2/genGoods", requestOptions)
-  .then(response => response.json())
-  .then(result => {
-
-    if(result.status === 1){
-      setProductData(result.data.list[0].detail)
-      // console.log(result.data.list[0].detail)
     }
-  })
-  .catch(error => console.log('error', error));
-}
+  };
 
 
-async function existingCartCheck(){
- const CheckStatusCart = await CheckCartStatus()
-setShowCartButton(CheckStatusCart)
-}
+  useEffect(() => {
+
+    existingCartCheck()
+
+  }, [focused])
+
+  useEffect(() => {
+    existingCartCheck()
+  }, [forceCheck])
+
+
+  useEffect(() => {
+
+    getGoods()
+
+  }, [item])
+
+  function getGoods() {
+    var formdata = new FormData();
+    formdata.append("token", "4YgUjOLnZ6x6b3tPVOCBMX5y");
+    formdata.append("code", item.machineId);
+
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow'
+    };
+
+    fetch("https://f.aiwan88.net/cp/coffee/v2/genGoods", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+
+        if (result.status === 1) {
+          setProductData(result.data.list[0].detail)
+          // console.log(result.data.list[0].detail)
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+
+  async function existingCartCheck() {
+    const CheckStatusCart = await CheckCartStatus()
+    setShowCartButton(CheckStatusCart)
+  }
 
   // Sample store data (Replace this with the actual data from the selected store)
   const storeData = {
@@ -84,82 +85,90 @@ setShowCartButton(CheckStatusCart)
     rating: 4.5,
     description: 'A trendy coffee spot with a wide variety of drinks.',
     isOpen: true,
-    machineId:"AWafp380o7",
+    machineId: "AWafp380o7",
     products: [
-        { id: 1, name: 'Latte Dark', image: 'https://media.cnn.com/api/v1/images/stellar/prod/150929101049-black-coffee-stock.jpg?q=x_3,y_1231,h_1684,w_2993,c_crop/h_720,w_1280', description: 'Dark Latte: Pure Black beans with oil',Price:"6.5",machineId:"AWafp380o7" },
-        { id: 2, name: 'Smooth Cap', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Latte_and_dark_coffee.jpg/1200px-Latte_and_dark_coffee.jpg', description: 'Light Shot: Makes your mood charm',Price:"8.9",machineId:"AWafp380o7" },
-        { id: 3, name: 'Isponiol Beans', image: 'https://post.healthline.com/wp-content/uploads/2020/08/coffee-worlds-biggest-source-of-antioxidants-1296x728-feature_0-800x728.jpg', description: 'Brown Isponiol, Gives you wingss',Price:"9.0",machineId:"AWafp380o7" },
+      { id: 1, name: 'Latte Dark', image: 'https://media.cnn.com/api/v1/images/stellar/prod/150929101049-black-coffee-stock.jpg?q=x_3,y_1231,h_1684,w_2993,c_crop/h_720,w_1280', description: 'Dark Latte: Pure Black beans with oil', Price: "6.5", machineId: "AWafp380o7" },
+      { id: 2, name: 'Smooth Cap', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Latte_and_dark_coffee.jpg/1200px-Latte_and_dark_coffee.jpg', description: 'Light Shot: Makes your mood charm', Price: "8.9", machineId: "AWafp380o7" },
+      { id: 3, name: 'Isponiol Beans', image: 'https://post.healthline.com/wp-content/uploads/2020/08/coffee-worlds-biggest-source-of-antioxidants-1296x728-feature_0-800x728.jpg', description: 'Brown Isponiol, Gives you wingss', Price: "9.0", machineId: "AWafp380o7" },
     ],
   };
 
 
-  const RenderProductItem = ({ item }) => 
-  {
-return(
-    <TouchableOpacity style={styles.productCard}>
-      <Image source={{ uri: item.picture }} style={styles.productImage} />
-      <View style={styles.productDetails}>
-        <Text style={styles.productName}>{item.title}</Text>
-        <Text style={styles.productDescription}>{item.desc}</Text>
-        <Text style={styles.productPrice}>CAD ${item.price}</Text>
-        <TouchableOpacity
-        onPress={()=>{
-            setModalVisible(true)
-            setSelectedProduct(item)}}
-        style={styles.addToCartButton}>
-          <Icon name="add-shopping-cart" size={24} color={Colors.PrimaryColor} />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
-}
+  const RenderProductItem = ({ item }) => {
+    return (
+      <TouchableOpacity style={styles.productCard}>
+        <Image source={{ uri: item.picture }} style={styles.productImage} />
+        <View style={styles.productDetails}>
+          <Text style={styles.productName}>{item.title}</Text>
+          <Text style={styles.productDescription}>{item.desc}</Text>
+          <Text style={styles.productPrice}>CAD ${item.price}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true)
+              setSelectedProduct(item)
+            }}
+            style={styles.addToCartButton}>
+            <Icon name="add-shopping-cart" size={24} color={Colors.PrimaryColor} />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-    <ScrollView
-    nestedScrollEnabled={true}
-    >
-      <Image source={{ uri: storeData.banner }} style={styles.storeBanner} />
-
-      <View style={styles.storeInfoContainer}>
-        <Text style={styles.storeName}>{storeData.name}</Text>
-        <View style={styles.storeRatingContainer}>
-          <Icon name="star" size={18} color="#FFD700" />
-          <Text style={styles.storeRating}>{storeData.rating}</Text>
-        </View>
-        <Text style={styles.storeDescription}>{storeData.description}</Text>
-        <Text style={styles.storeStatus}>{storeData.isOpen ? 'Open Now' : 'Closed'}</Text>
-      </View>
-
-        <Text style={styles.sectionTitle}>Products</Text>
-      <View style={styles.productsContainer}>
-        <FlatList
-          data={productData}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({item})=>{
-            return(
-<RenderProductItem item={item}  />
-            )
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        nestedScrollEnabled={true}
+      >
+        <GoBack
+          mainContainer={{
+            position: 'absolute',
+            zIndex: 1,
+            left: 5,
+            top:5,
           }}
         />
+        <Image source={{ uri: storeData.banner }} style={styles.storeBanner} />
 
-      </View>
-{
-  selectedProduct !=null &&
-  <AddToCartModal
-  product={selectedProduct}
-  visible={modalVisible}
-  onClose={() => setModalVisible(false)}
-  onAddToCart={handleAddToCart}
-  />
-}
-    </ScrollView>
-    {
-      showCartButton === true &&
-    <ViewCart/>
-    }
+        <View style={styles.storeInfoContainer}>
+          <Text style={styles.storeName}>{storeData.name}</Text>
+          <View style={styles.storeRatingContainer}>
+            <Icon name="star" size={18} color="#FFD700" />
+            <Text style={styles.storeRating}>{storeData.rating}</Text>
+          </View>
+          <Text style={styles.storeDescription}>{storeData.description}</Text>
+          <Text style={styles.storeStatus}>{storeData.isOpen ? 'Open Now' : 'Closed'}</Text>
+        </View>
 
-</View>
+        <Text style={styles.sectionTitle}>Products</Text>
+        <View style={styles.productsContainer}>
+          <FlatList
+            data={productData}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => {
+              return (
+                <RenderProductItem item={item} />
+              )
+            }}
+          />
+
+        </View>
+        {
+          selectedProduct != null &&
+          <AddToCartModal
+            product={selectedProduct}
+            visible={modalVisible}
+            onClose={() => setModalVisible(false)}
+            onAddToCart={handleAddToCart}
+          />
+        }
+      </ScrollView>
+      {
+        showCartButton === true &&
+        <ViewCart />
+      }
+
+    </SafeAreaView>
   );
 };
 
@@ -204,7 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    marginLeft:20,
+    marginLeft: 20,
     color: '#B7DFA1', // Primary color for section titles
   },
   productCard: {
@@ -236,7 +245,7 @@ const styles = StyleSheet.create({
   productPrice: {
     color: '#B7DFA1', // Primary color for product price
     marginTop: 5,
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   addToCartButton: {
     backgroundColor: Colors.BgColor, // Primary color for add to cart button

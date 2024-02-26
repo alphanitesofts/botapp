@@ -1,5 +1,5 @@
-import React, {useEffect,useState} from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, FlatList, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, FlatList, Pressable, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // You can use any icon library you prefer
 import Colors from '../GlobalStyles/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -10,44 +10,44 @@ import ViewCart from '../GlobalStyles/ViewCart';
 import { useIsFocused } from '@react-navigation/native';
 const Home = () => {
 
-const focused = useIsFocused()
+  const focused = useIsFocused()
   const navigation = useNavigation()
 
-  const [forceCheck,setForceCheck]=useState(false)
-  const [showCartButton,setShowCartButton] = useState(false)
+  const [forceCheck, setForceCheck] = useState(false)
+  const [showCartButton, setShowCartButton] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
+
     existingCartCheck()
-     
-  },[focused])
-  useEffect(()=>{
+
+  }, [focused])
+  useEffect(() => {
     existingCartCheck()
-  },[forceCheck])
+  }, [forceCheck])
   const handleAddToCart = async (cartItem) => {
     const handleCart = await HandleAddCart(cartItem)
-    if(handleCart){
-     setForceCheck(!showCartButton)
+    if (handleCart) {
+      setForceCheck(!showCartButton)
     }
-   };
-   
-  async function existingCartCheck(){
-   const CheckStatusCart = await CheckCartStatus()
-  setShowCartButton(CheckStatusCart)
+  };
+
+  async function existingCartCheck() {
+    const CheckStatusCart = await CheckCartStatus()
+    setShowCartButton(CheckStatusCart)
   }
 
   // Sample data for popular stores, popular products, and categories
   const popularStores = [
-    { id: 1, name: 'Coffee Corner', banner: 'https://blog-assets.lightspeedhq.com/img/2021/03/b26bcdcf-blog_coffee-shop-equipment-list_1200x628.jpg', rating: 4.5, description: 'A trendy coffee spot with a wide variety of drinks.',machineId:"AWafp380o7" },
-    { id: 2, name: 'Tea House', banner: 'https://oceanlodgeflorida.com/wp-content/uploads/2019/11/coffee-shop-1149155_1920.jpg', rating: 4.2, description: 'A cozy cafe offering delicious pastries and desserts.',machineId:"AWafp380o7" },
-    { id: 3, name: 'Coffee House', banner: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ZEPOtAMa9PG9CpF-Rm9ig_RaCGiW0MKw2HYeOeGLbEfz5qQM2nluTWvACREPnSR8FS8&usqp=CAU', raing: 4.8, description: 'A modern coffee house with a relaxing ambiance.',machineId:"AWafp380o7" },
+    { id: 1, name: 'Coffee Corner', banner: 'https://blog-assets.lightspeedhq.com/img/2021/03/b26bcdcf-blog_coffee-shop-equipment-list_1200x628.jpg', rating: 4.5, description: 'A trendy coffee spot with a wide variety of drinks.', machineId: "AWafp380o7" },
+    { id: 2, name: 'Tea House', banner: 'https://oceanlodgeflorida.com/wp-content/uploads/2019/11/coffee-shop-1149155_1920.jpg', rating: 4.2, description: 'A cozy cafe offering delicious pastries and desserts.', machineId: "AWafp380o7" },
+    { id: 3, name: 'Coffee House', banner: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ZEPOtAMa9PG9CpF-Rm9ig_RaCGiW0MKw2HYeOeGLbEfz5qQM2nluTWvACREPnSR8FS8&usqp=CAU', raing: 4.8, description: 'A modern coffee house with a relaxing ambiance.', machineId: "AWafp380o7" },
     // Add more stores here
   ];
 
   const popularProducts = [
-    { id: 11941, title: '花生碎颗粒', picture: "http://qiniu.aiwan88.net/20220727165358338.jpg", desc: 'Dark Latte: Pure Black beans with oil',price:"1",machineId:"AWafp380o7" },
+    { id: 11941, title: '花生碎颗粒', picture: "http://qiniu.aiwan88.net/20220727165358338.jpg", desc: 'Dark Latte: Pure Black beans with oil', price: "1", machineId: "AWafp380o7" },
     // Add more products here
   ];
 
@@ -60,21 +60,21 @@ const focused = useIsFocused()
   ];
 
   return (
-    <View  style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
-    <ScrollView nestedScrollEnabled={true}>
-      {/* Top banner */}
-      <Image source={{ uri: 'https://t4.ftcdn.net/jpg/03/14/86/17/360_F_314861732_1MnoYhjA81pqeibaEJgAfXJBr0XERD5I.jpg' }} style={styles.bannerImage} />
+      <ScrollView nestedScrollEnabled={true}>
+        {/* Top banner */}
+        <Image source={{ uri: 'https://t4.ftcdn.net/jpg/03/14/86/17/360_F_314861732_1MnoYhjA81pqeibaEJgAfXJBr0XERD5I.jpg' }} style={styles.bannerImage} />
 
-      {/* Collect Daily Rewards */}
-      <View style={styles.rewardContainer}>
-        <Icon name="card-giftcard" size={30} color="#fff" />
-        <Text style={styles.rewardText}>Collect Your Daily Login Rewards</Text>
-      </View>
+        {/* Collect Daily Rewards */}
+        <View style={styles.rewardContainer}>
+          <Icon name="card-giftcard" size={30} color="#fff" />
+          <Text style={styles.rewardText}>Collect Your Daily Login Rewards</Text>
+        </View>
 
-  
-      {/* Categories */}
-      {/* <View style={styles.sectionContainer}>
+
+        {/* Categories */}
+        {/* <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Categories</Text>
         <FlatList
           data={categories}
@@ -90,86 +90,85 @@ const focused = useIsFocused()
         />
       </View> */}
 
-      {/* Popular Stores */}
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Popular Stores</Text>
-        <FlatList
-          data={popularStores}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Pressable
-            onPress={()=> navigation.navigate("StoreDetailScreen",{item:item})}
-            style={styles.storeCard}>
-              <Image source={{ uri: item.banner }} style={styles.storeBanner} />
-              <View style={styles.storeInfoContainer}>
-                <Text style={styles.storeName}>{item.name}</Text>
-                <View style={styles.storeRatingContainer}>
-                  <Icon name="star" size={18} color="#FFD700" />
-                  <Text style={styles.storeRating}>{item.rating}</Text>
+        {/* Popular Stores */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Popular Stores</Text>
+          <FlatList
+            data={popularStores}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <Pressable
+                onPress={() => navigation.navigate("StoreDetailScreen", { item: item })}
+                style={styles.storeCard}>
+                <Image source={{ uri: item.banner }} style={styles.storeBanner} />
+                <View style={styles.storeInfoContainer}>
+                  <Text style={styles.storeName}>{item.name}</Text>
+                  <View style={styles.storeRatingContainer}>
+                    <Icon name="star" size={18} color="#FFD700" />
+                    <Text style={styles.storeRating}>{item.rating}</Text>
+                  </View>
+                  <Text style={styles.storeDescription}>{item.description}</Text>
                 </View>
-                <Text style={styles.storeDescription}>{item.description}</Text>
+              </Pressable>
+            )}
+          />
+        </View>
+
+        {/* Popular Products */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Popular Products</Text>
+          <FlatList
+            data={popularProducts}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.productCard}>
+                <Image source={{ uri: item.picture }} style={styles.productImage} />
+                <Text style={styles.productName}>{item.title}</Text>
+                <Text style={styles.productDescription}>{item.desc}</Text>
+                <View
+                  style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}
+                >
+
+
+                  <Text style={styles.productName}>CAD {item.price}</Text>
+                  <Icon
+                    onPress={() => {
+                      setSelectedProduct(item)
+                      setModalVisible(true)
+                    }
+                    }
+                    name="add-circle" size={18} color="#FFD700" style={{ marginRight: 5 }} />
+
+                </View>
+
               </View>
-            </Pressable>
-          )}
-        />
-      </View>
-
-      {/* Popular Products */}
-      <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Popular Products</Text>
-        <FlatList
-          data={popularProducts}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.productCard}>
-              <Image source={{ uri: item.picture }} style={styles.productImage} />
-              <Text style={styles.productName}>{item.title}</Text>
-              <Text style={styles.productDescription}>{item.desc}</Text>
-              <View
-              style={{flexDirection:"row",alignItems:'center',justifyContent:'space-between'}}
-              >
+            )}
+          />
+        </View>
 
 
-              <Text style={styles.productName}>CAD {item.price}</Text>
-              <Icon 
-              onPress={()=> 
-                {
-                  setSelectedProduct(item)
-                  setModalVisible(true)
-                }
-              }
-              name="add-circle" size={18} color="#FFD700" style={{marginRight:5}}/>
+        <View style={{ width: 10, height: 80 }}>
 
-              </View>
-
-            </View>
-          )}
-        />
-      </View>
-
- 
-    <View style={{width:10,height:80}}>
-
-    </View>
-    </ScrollView>
-    {
-  selectedProduct !=null &&
-  <AddToCartModal
-  product={selectedProduct}
-  visible={modalVisible}
-  onClose={() => setModalVisible(false)}
-  onAddToCart={handleAddToCart}
-  />
-}
+        </View>
+      </ScrollView>
       {
-      showCartButton === true &&
-    <ViewCart/>
-    }
-    </View>
+        selectedProduct != null &&
+        <AddToCartModal
+          product={selectedProduct}
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onAddToCart={handleAddToCart}
+        />
+      }
+      {
+        showCartButton === true &&
+        <ViewCart />
+      }
+    </SafeAreaView>
 
   );
 };
@@ -203,7 +202,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   sectionTitle: {
-    marginLeft:5,
+    marginLeft: 5,
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
   },
   storeCard: {
     marginRight: 10,
-    marginLeft:5,
+    marginLeft: 5,
     backgroundColor: Colors.Dark,
     borderRadius: 10,
     overflow: 'hidden',
@@ -256,13 +255,13 @@ const styles = StyleSheet.create({
   },
   productCard: {
     marginRight: 10,
-    marginLeft:5,
+    marginLeft: 5,
     backgroundColor: Colors.Dark,
     borderRadius: 10,
     overflow: 'hidden',
     elevation: 2,
     width: 150,
-    paddingBottom:5
+    paddingBottom: 5
     // height: 200,
   },
   productImage: {

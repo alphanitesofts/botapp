@@ -22,20 +22,18 @@ const BottomNavigation = () => {
     <Tab.Navigator
     screenOptions={({ route }) => ({
         headerShown: false,
-
-        
+        tabBarActiveTintColor: "#F6F6F6",
+        tabBarInactiveTintColor: "#666666",
         tabBarStyle: {
           backgroundColor: Colors.Dark,
           borderTopWidth: 0,
-        
-        
         },
     })}
-    tabBarOptions={{
-        activeTintColor: Colors.FontColorI, // Color of the active tab label and icon
-        inactiveTintColor: Colors.inActive, // Color of the inactive tab label and icon
-         // Background color of the tab bar
-      }}
+    // tabBarOptions={{
+    //     activeTintColor: Colors.FontColorI, // Color of the active tab label and icon
+    //     inactiveTintColor: Colors.inActive, // Color of the inactive tab label and icon
+    //      // Background color of the tab bar
+    //   }}
     
     >
       <Tab.Screen name="Home" component={Home} 

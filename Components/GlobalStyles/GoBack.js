@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity
-  
+
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -15,19 +15,20 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import Colors from './colors';
 
 
-function GoBack (){
-const navigation = useNavigation()
+function GoBack({ mainContainer }) {
+  const navigation = useNavigation()
   return (
     <TouchableOpacity
-onPress={()=>  navigation.goBack()}
+      style={mainContainer}
+      onPress={() => navigation.goBack()}
 
->
-  <IonIcon 
-  name='arrow-back'
-  color={Colors.PrimaryColor}
-  size={28}
-  />
-{/* <Text
+    >
+      <IonIcon
+        name='arrow-back'
+        color={Colors.PrimaryColor}
+        size={28}
+      />
+      {/* <Text
 style={GlobalStyles.Goback}
 >
 Go Back</Text> */}
