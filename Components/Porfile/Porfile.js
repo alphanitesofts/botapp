@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, ScrollView, ImageBackground, TouchableHighlight, Pressable, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, Image, ScrollView, ImageBackground, TouchableHighlight, Pressable, TouchableOpacity, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
 import GlobalStyles from '../GlobalStyles/GlobalStyles';
 import Styles from './Styles';
 import profMale from '../../assets/images/male.png'
@@ -16,6 +16,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Tos from '../App\'sContent/Tos';
 import PrivacyPolicy from '../App\'sContent/PrivacyPolicy';
 const Profile = () => {
+
   const focused = useIsFocused()
   const navigation = useNavigation()
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -32,7 +33,22 @@ const Profile = () => {
   )
   const iconColor = Colors.FontColorI
   const [showIvitationModal, setShowInvitationModal] = useState(false)
+  const [userId, setUserId] = useState("")
+  const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    getUserDetails()
+  }, [focused])
+
+  async function getUserDetails() {
+    try {
+      const details = await AsyncStorage.getItem('user')
+      let formattedDetails = JSON.parse(details)
+      setUserId(formattedDetails?.id)
+    } catch (error) {
+      console.log("error==>", error);
+    }
+  }
 
   function onHideInvitation() {
     setShowInvitationModal(false)
@@ -51,6 +67,34 @@ const Profile = () => {
     setShowPrivacy((p) => !p)
 
   }
+
+
+  const deleteAccount = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(`https://zhang.alphanitesofts.net/api/deleteuserwithid/${userId}`, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      const res = await response.json();
+      if (res?.status === "200") {
+        Alert.alert(res?.message || "Account has been deleted")
+        navigation.navigate("Login")
+        navigationRester("Login")
+        AsyncStorage.clear()
+      }
+    } catch (err) {
+      console.error("Error ==>", err);
+    } finally {
+      setLoading(false)
+    }
+  };
+
+
   return (
 
     <SafeAreaView
@@ -465,7 +509,26 @@ color={Colors.FontColorI}
 
 
 
-          <View style={Styles.CardWrapperBottom}>
+          <TouchableOpacity style={Styles.CardWrapperBottom} onPress={() => Alert.alert(
+            'Delete Account',
+            'Are you sure?',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () => {
+                  // Handle the OK button press
+                  deleteAccount()
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+
+          }>
 
             <View
               style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -492,7 +555,7 @@ color={Colors.FontColorI}
               color={'transparent'}
             />
 
-          </View>
+          </TouchableOpacity>
 
 
 
@@ -523,9 +586,15 @@ color={Colors.FontColorI}
         />
       </ScrollView>
 
+      {loading && <ActivityIndicator
 
+        animating={true}
+        size={'large'}
+        color={'#FF0000'}
+        style={{ marginLeft: 5, zIndex: 9999, position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+      />}
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 

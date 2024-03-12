@@ -6,7 +6,7 @@ import CountryCode from './CountryCodes';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = (  {
+const Login = ({
 
 }) => {
   const [Phone, setPhone] = useState('');
@@ -18,16 +18,16 @@ const Login = (  {
   const [showCode, setShowCode] = useState(false);
 
   const [countryCod, setcountryCode] = useState("92");
-const navigation = useNavigation()
+  const navigation = useNavigation()
 
   const handleLogin = (
-  
+
   ) => {
     if (Phone && password) {
-      // LoginNow();
-      AsyncStorage.setItem("Login","1")
-navigation.navigate("BottomNavigation")
-navigationRester("BottomNavigation")
+      LoginNow();
+      // AsyncStorage.setItem("Login", "1")
+      // navigation.navigate("BottomNavigation")
+      // navigationRester("BottomNavigation")
       // setLoading(true); 
     } else {
       setPressed(true);
@@ -42,23 +42,24 @@ navigationRester("BottomNavigation")
 
   function LoginNow() {
     var formdata = new FormData();
-    formdata.append('phone', countryCod+Phone);
+    formdata.append('phone_number', Phone);
     formdata.append('password', password);
-
+    console.log("formdata", formdata);
     var requestOptions = {
       method: 'POST',
       body: formdata,
       redirect: 'follow',
     };
-
+    console.log("called");
     fetch('https://zhang.alphanitesofts.net/api/login', requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoading(false);
         if (result.status === '200') {
-          AsyncStorage.setItem("Login","1")
-          AsyncStorage.setItem("user",JSON.stringify(result.user))
+          AsyncStorage.setItem("Login", "1")
+          AsyncStorage.setItem('user', JSON.stringify(result.user))
           // ControlLogin()
+          navigationRester("BottomNavigation")
           setErrorCode()
         } else if (result.status === '401') {
           CatchErrors(result.error, result.message);
@@ -76,10 +77,10 @@ navigationRester("BottomNavigation")
   }
 
 
-function selectedCode(val){
-setcountryCode(val)
-setShowCode(false)
-}
+  function selectedCode(val) {
+    setcountryCode(val)
+    setShowCode(false)
+  }
 
   return (
     <View style={styles.container}>
@@ -89,23 +90,24 @@ setShowCode(false)
       {errorCode === 'phone' && <Text style={styles.errorText}>{errorMessage}</Text>}
 
       <View style={styles.inputContainer}>
-        <IonIcons 
-        onPress={()=> setShowCode(true)}
-        name="chevron-down-sharp" size={24} color="white" style={styles.inputIcon} />
-        <View style={[styles.input, { borderBottomColor: pressed === true && !Phone ? Colors.danger : 'transparent' ,flexDirection:'row',alignItems:"center"}]}
->
-        <Text style={styles.PhoneCode}>{countryCod}</Text>
+        <IonIcons
+          onPress={() => setShowCode(true)}
+          name="chevron-down-sharp" size={24} color="white" style={styles.inputIcon} />
+        <View style={[styles.input, { borderBottomColor: pressed === true && !Phone ? Colors.danger : 'transparent', flexDirection: 'row', alignItems: "center" }]}
+        >
+          <Text style={styles.PhoneCode}>{countryCod}</Text>
 
-        <TextInput
-          style={{flex:1,color: 'white',
-        }}
-          placeholder="Phone"
-          keyboardType="numeric"
-          placeholderTextColor="#999"
-          onChangeText={(text) => setPhone(text)}
-          value={Phone}
+          <TextInput
+            style={{
+              flex: 1, color: 'white',
+            }}
+            placeholder="Phone"
+            keyboardType="numeric"
+            placeholderTextColor="#999"
+            onChangeText={(text) => setPhone(text)}
+            value={Phone}
           />
-          </View>
+        </View>
       </View>
       {errorCode === 'password' && <Text style={styles.errorText}>{errorMessage}</Text>}
 
@@ -125,19 +127,19 @@ setShowCode(false)
         <Text style={styles.buttonText}>{loading === true ? 'Loading...' : 'Login'}</Text>
       </TouchableOpacity>
 
-      <Text style={styles.signupText}>If you don't have an account, please  
-      <Text
-      onPress={()=> navigation.navigate("Registration")}
-      style={{color:Colors.PrimaryColor,fontSize:15,fontWeight:"bold"}}
-      >
+      <Text style={styles.signupText}>If you don't have an account, please
+        <Text
+          onPress={() => navigation.navigate("Registration")}
+          style={{ color: Colors.PrimaryColor, fontSize: 15, fontWeight: "bold" }}
+        >
 
-      {" "}Sign Up
+          {" "}Sign Up
+        </Text>
+
       </Text>
-      
-      </Text>
-      <CountryCode 
-      isVisible={showCode}
-      onSelectBank={selectedCode}
+      <CountryCode
+        isVisible={showCode}
+        onSelectBank={selectedCode}
       />
     </View>
   );
@@ -151,11 +153,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  PhoneCode:{
-color:Colors.FontColorI,
-fontSize:16,
-// marginRight:5,
-fontWeight:'bold'
+  PhoneCode: {
+    color: Colors.FontColorI,
+    fontSize: 16,
+    // marginRight:5,
+    fontWeight: 'bold'
   },
   title: {
     fontSize: 32,

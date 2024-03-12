@@ -46,7 +46,7 @@ return(
 
   <WebView 
 style={{width:350,height:600}}
-source={{uri: "http://termsandconditions.plshare.com/"}}
+source={{uri: "https://terms-and-conditions-blond.vercel.app/"}}
 javaScriptEnabled={true}
 domStorageEnabled={true}
 startInLoadingState={true}
@@ -55,7 +55,7 @@ startInLoadingState={true}
 
 <WebView 
 style={{width:350,height:600}}
-source={{uri: "https://privacypolicy.plshare.com/"}}
+source={{uri: "https://privacy-policy-gamma.vercel.app/"}}
 javaScriptEnabled={true}
 domStorageEnabled={true}
 startInLoadingState={true}
