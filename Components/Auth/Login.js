@@ -5,6 +5,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import CountryCode from './CountryCodes';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaView } from 'react-native';
 
 const Login = ({
 
@@ -42,7 +43,7 @@ const Login = ({
 
   function LoginNow() {
     var formdata = new FormData();
-    formdata.append('phone_number', Phone);
+    formdata.append('phone_number', countryCod.concat(Phone));
     formdata.append('password', password);
     console.log("formdata", formdata);
     var requestOptions = {
@@ -50,7 +51,6 @@ const Login = ({
       body: formdata,
       redirect: 'follow',
     };
-    console.log("called");
     fetch('https://zhang.alphanitesofts.net/api/login', requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -83,7 +83,7 @@ const Login = ({
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <IonIcons name="person-circle" size={80} color="white" />
       <Text style={styles.title}>Welcome Back!</Text>
       <Text style={styles.subtitle}>Login to continue</Text>
@@ -141,7 +141,7 @@ const Login = ({
         isVisible={showCode}
         onSelectBank={selectedCode}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

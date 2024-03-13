@@ -51,7 +51,7 @@ return (
     <Pressable
     onPress={()=> onSelectBank(92)}
     
-    style={{flexDirection:"row",marginTop:10,alignSelf:'flex-start',left:15,alignItems:'center'}}>
+    style={{flexDirection:"row",marginTop:80,alignSelf:'flex-start',left:15,alignItems:'center'}}>
       {/* <Image  source={gobackIcon}
       style={{width:12,height:15}}
       /> */}
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
         height: WindowHeight,
         backgroundColor: Colors.Dark,
         alignItems:"center",
+        justifyContent:'center'
             
     },
     ListContainer:{
