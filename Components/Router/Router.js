@@ -1,46 +1,48 @@
-import React,{useState,useEffect} from "react";
-import { View,Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Registration from "../Auth/Registration";
 import Login from "../Auth/Login";
 import BottomNavigation from "../BottomNavigation/BottomNavigation";
 import { useNavigation } from "@react-navigation/native";
-function Router(){
+function Router() {
     const navigation = useNavigation()
-const [index,setIndex]=useState(4)
-    useEffect(()=>{
+    const [index, setIndex] = useState(4)
+    useEffect(() => {
         GetAsyncStorage()
-    },[])
-    
+    }, [])
 
-    async function GetAsyncStorage(){
+
+    async function GetAsyncStorage() {
         const value = await AsyncStorage.getItem("Login")
-        if(value){
-            // setIndex(3)
-            // console.log("worked")
-            navigation.navigate("BottomNavigation")
-            navigationRester("BottomNavigation")
-        }else{
-            // setIndex(1)
-            navigation.navigate("Login")
+        navigation.navigate("BottomNavigation")
+        navigationRester("BottomNavigation")
+        // if(value){
+        //     // setIndex(3)
+        //     // console.log("worked")
+        //     navigation.navigate("BottomNavigation")
+        //     navigationRester("BottomNavigation")
+        // }else{
+        //     // setIndex(1)
+        //     navigation.navigate("Login")
 
-            navigationRester("Login")
-        }
+        //     navigationRester("Login")
+        // }
     }
     function navigationRester(title) {
         navigation.reset({
-          index: 0,
-          routes: [{ name: title }],
+            index: 0,
+            routes: [{ name: title }],
         });
-      }
-return(
-    <View>
-        <Text>Loading...</Text>
-    </View>
-)
+    }
+    return (
+        <View>
+            <Text>Loading...</Text>
+        </View>
+    )
 
     // function RouteControler(){
-     
+
     //    if(index === 1){
     //     setIndex(2)
     //    }
@@ -63,7 +65,7 @@ return(
     //         <Login
     //         RouteControler={RouteControler}
     //         ControlLogin={ControlLogin}
-            
+
     //         />
 
     //     )
@@ -73,7 +75,7 @@ return(
     //         <Registration 
     //         RouteControler={RouteControler}
     //         ControlLogin={ControlLogin}
-            
+
     //         />
 
     //     )

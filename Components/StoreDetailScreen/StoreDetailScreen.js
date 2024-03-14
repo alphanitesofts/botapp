@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, FlatList, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // You can use any icon library you prefer
 import Colors from '../GlobalStyles/colors';
 
@@ -103,9 +103,18 @@ const StoreDetailScreen = ({ navigation, route }) => {
           <Text style={styles.productDescription}>{item.desc}</Text>
           <Text style={styles.productPrice}>CAD ${item.price}</Text>
           <TouchableOpacity
-            onPress={() => {
-              setModalVisible(true)
-              setSelectedProduct(item)
+            onPress={async () => {
+              const value = await AsyncStorage.getItem("Login")
+              if (value) {
+                setModalVisible(true)
+                setSelectedProduct(item)
+              }
+              else {
+                Alert.alert("Plase login first")
+                setTimeout(() => {
+                  navigation.navigate("Login")
+                }, 1000)
+              }
             }}
             style={styles.addToCartButton}>
             <Icon name="add-shopping-cart" size={24} color={Colors.PrimaryColor} />
@@ -125,7 +134,7 @@ const StoreDetailScreen = ({ navigation, route }) => {
             position: 'absolute',
             zIndex: 1,
             left: 5,
-            top:5,
+            top: 5,
           }}
         />
         <Image source={{ uri: storeData.banner }} style={styles.storeBanner} />

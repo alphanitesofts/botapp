@@ -41,12 +41,21 @@ const Profile = () => {
   }, [focused])
 
   async function getUserDetails() {
-    try {
-      const details = await AsyncStorage.getItem('user')
-      let formattedDetails = JSON.parse(details)
-      setUserId(formattedDetails?.id)
-    } catch (error) {
-      console.log("error==>", error);
+    const value = await AsyncStorage.getItem("Login")
+    if (value) {
+      try {
+        const details = await AsyncStorage.getItem('user')
+        let formattedDetails = JSON.parse(details)
+        setUserId(formattedDetails?.id)
+      } catch (error) {
+        console.log("error==>", error);
+      }
+    }
+    else {
+      Alert.alert("Plase login first")
+      setTimeout(() => {
+        navigation.navigate("Login")
+      }, 1000)
     }
   }
 
