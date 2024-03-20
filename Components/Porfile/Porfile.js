@@ -41,21 +41,12 @@ const Profile = () => {
   }, [focused])
 
   async function getUserDetails() {
-    const value = await AsyncStorage.getItem("Login")
-    if (value) {
-      try {
-        const details = await AsyncStorage.getItem('user')
-        let formattedDetails = JSON.parse(details)
-        setUserId(formattedDetails?.id)
-      } catch (error) {
-        console.log("error==>", error);
-      }
-    }
-    else {
-      Alert.alert("Plase login first")
-      setTimeout(() => {
-        navigation.navigate("Login")
-      }, 1000)
+    try {
+      const details = await AsyncStorage.getItem('user')
+      let formattedDetails = JSON.parse(details)
+      setUserId(formattedDetails?.id)
+    } catch (error) {
+      console.log("error==>", error);
     }
   }
 
@@ -136,8 +127,16 @@ const Profile = () => {
               </Text>
             </View>
             <TouchableHighlight
-              onPress={() => navigation.navigate("ProfileDetails", user)}
-
+              onPress={async () => {
+                const value = await AsyncStorage.getItem("Login")
+                if (value) navigation.navigate("ProfileDetails", user)
+                else {
+                  Alert.alert("Plase login first")
+                  setTimeout(() => {
+                    navigation.navigate("Login")
+                  }, 1000)
+                }
+              }}
             >
 
               <Ionicons
@@ -177,7 +176,16 @@ const Profile = () => {
               </Text>
             </View>
             <TouchableHighlight
-              onPress={() => navigation.navigate("ChangePassword")}
+              onPress={async () => {
+                const value = await AsyncStorage.getItem("Login")
+                if (value) navigation.navigate("ChangePassword")
+                else {
+                  Alert.alert("Plase login first")
+                  setTimeout(() => {
+                    navigation.navigate("Login")
+                  }, 1000)
+                }
+              }}
 
             >
 

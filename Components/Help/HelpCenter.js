@@ -17,6 +17,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import ChatDetail from './ChatDetail';
 import CreateTicket from './CreateTicket';
+import IonIcon from 'react-native-vector-icons/Ionicons'
 function HelpCenter() {
 const navigation = useNavigation()
 
@@ -132,6 +133,16 @@ return(
 
 return (
     <SafeAreaView style={styles.Container}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+
+        style={{ flexDirection: "row", marginTop: 10, alignSelf: 'flex-start', left: 15, alignItems: 'center' }}>
+        <IonIcon
+          name='arrow-back'
+          color={Colors.PrimaryColor}
+          size={28}
+        />
+      </Pressable>
 <Text style={styles.HeaderText}>
     Help Center
 </Text>

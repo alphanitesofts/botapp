@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:30,
         marginLeft:15,
-        // marginTop:10,
+        marginTop:10,
     },
     TrickContainer:{
         width:WindowWidth/1.1,
